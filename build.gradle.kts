@@ -19,8 +19,6 @@ subprojects {
     apply(plugin = "kotlin-spring")
 
     dependencies {
-        implementation("org.springframework.boot:spring-boot-gradle-plugin:2.6.4")
-
         implementation(kotlin("stdlib-jdk8"))
         implementation(kotlin("reflect"))
     }

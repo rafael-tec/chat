@@ -1,3 +1,3 @@
 rootProject.name = "chat"
 
-include("application", "http", "persistence", "usecases")
+include("application", "rest", "persistence", "usecases")

@@ -15,5 +15,6 @@ application {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-gradle-plugin:2.6.4")
     implementation("org.springframework.boot:spring-boot-starter-web:2.6.5")
 }
