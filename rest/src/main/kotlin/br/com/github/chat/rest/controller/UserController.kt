@@ -1,6 +1,8 @@
 package br.com.github.chat.rest.controller
 
+import br.com.github.chat.rest.request.UserCandidateRequest
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -9,7 +11,10 @@ import org.springframework.web.bind.annotation.RestController
 class UserController {
 
     @GetMapping
-    fun hello(): String {
-        return "Hello world!"
+    fun save(
+        @RequestBody
+        userCandidateRequest: UserCandidateRequest
+    ) {
+
     }
 }
