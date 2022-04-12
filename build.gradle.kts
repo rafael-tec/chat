@@ -23,6 +23,7 @@ subprojects {
         implementation(kotlin("reflect"))
 
         implementation("org.springframework.boot:spring-boot-starter-web:2.6.6")
+        implementation("javax.validation:validation-api:2.0.1.Final")
     }
 
     java {
