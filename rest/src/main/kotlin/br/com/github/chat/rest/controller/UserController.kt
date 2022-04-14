@@ -13,8 +13,8 @@ class UserController {
 
     @PostMapping
     fun save(
-        @RequestBody
         @Valid
+        @RequestBody
         userCandidateRequest: UserCandidateRequest
     ) {
         println(userCandidateRequest)
