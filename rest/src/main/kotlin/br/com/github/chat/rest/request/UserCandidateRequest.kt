@@ -6,13 +6,13 @@ import javax.validation.constraints.NotNull
 data class UserCandidateRequest(
     @field:NotNull
     @field:Valid
-    val person: PersonRequest,
+    val person: PersonRequest?,
 
     @field:NotNull
     @field:Valid
-    val phoneNumber: PhoneNumberRequest,
+    val phoneNumber: PhoneNumberRequest?,
 
     @field:NotNull
     @field:Valid
-    val device: DeviceRequest,
+    val device: DeviceRequest?,
 )

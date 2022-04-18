@@ -5,8 +5,8 @@ import javax.validation.constraints.NotNull
 
 data class PersonRequest(
     @field:NotNull
-    val name: String,
+    val name: String?,
 
     @field:NotNull
-    val birthDate: LocalDate
+    val birthDate: LocalDate?
 )

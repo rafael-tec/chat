@@ -5,9 +5,9 @@ import javax.validation.constraints.NotNull
 
 data class DeviceRequest(
     @field:NotNull
-    val manufacturer: String,
+    val manufacturer: String?,
 
     @field:NotNull
     @field:Valid
-    val system: SystemRequest
+    val system: SystemRequest?
 )

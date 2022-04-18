@@ -4,8 +4,8 @@ import javax.validation.constraints.NotNull
 
 data class SystemRequest(
     @field:NotNull
-    val version: String,
+    val version: String?,
 
     @field:NotNull
-    val systemOperation: String,
+    val systemOperation: String?,
 )
