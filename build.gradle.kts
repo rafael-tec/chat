@@ -24,6 +24,10 @@ subprojects {
 
         implementation("org.springframework.boot:spring-boot-starter-web:2.6.6")
         implementation("org.springframework.boot:spring-boot-starter-validation:2.6.6")
+
+        testImplementation("io.kotest:kotest-assertions-core-jvm:5.2.3")
+        testImplementation("io.mockk:mockk:1.12.3")
+        testImplementation("io.kotest:kotest-runner-junit5-jvm:4.6.0")
     }
 
     java {
@@ -31,4 +35,8 @@ subprojects {
             languageVersion.set(JavaLanguageVersion.of(17))
         }
     }
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }
