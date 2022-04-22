@@ -1,15 +1,17 @@
 package br.com.github.chat.rest.contoller
 
 import br.com.github.chat.rest.controller.UserController
-import br.com.github.chat.rest.request.*
+import br.com.github.chat.rest.generator.createUserCandidate
 import br.com.github.chat.rest.validator.RequestContractValidator
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.core.test.TestCase
+import io.kotest.property.Arb
+import io.kotest.property.RandomSource
+import io.kotest.property.arbitrary.string
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import org.springframework.validation.BindingResult
-import java.time.LocalDate
 
 class UserControllerTest : StringSpec() {
 
@@ -37,21 +39,8 @@ class UserControllerTest : StringSpec() {
     }
 }
 
-fun createUserCandidate() = UserCandidateRequest(
-    person = PersonRequest(
-        name = "Joao",
-        birthDate = LocalDate.of(2022, 4, 14)
-    ),
-    phoneNumber = PhoneNumberRequest(
-        areaCode = "11",
-        countryCode = "55",
-        number = "988445500"
-    ),
-    device = DeviceRequest(
-        manufacturer = "Xiaomi",
-        system = SystemRequest(
-            version = "10",
-            systemOperation = "Miui 10"
-        )
-    )
-)
+private fun main() {
+    val test = Arb.string(minSize = 1, maxSize = 100).sample(RandomSource.default()).value
+
+    println(test)
+}

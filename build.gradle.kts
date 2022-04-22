@@ -17,6 +17,7 @@ subprojects {
 
     apply(plugin = "kotlin")
     apply(plugin = "kotlin-spring")
+    apply(plugin = "java-test-fixtures")
 
     dependencies {
         implementation(kotlin("stdlib-jdk8"))
