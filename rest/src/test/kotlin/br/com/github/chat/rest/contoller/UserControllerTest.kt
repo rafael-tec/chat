@@ -27,34 +27,31 @@ class UserControllerTest : StringSpec() {
     }
 
     init {
-        "should handler request save user successfully" {
+        "should validate request successfully" {
             every { requestContractValidator.validate(any()) } just Runs
 
-            controller.save(
-                userCandidateRequest = createUserCandidate(),
-                bindingResult = bindingResult
-            )
+            controller.save(userCandidateRequest = createUserCandidate(), bindingResult)
 
-            coVerify(exactly = 1) { requestContractValidator.validate(bindingResult) }
+            verify(exactly = 1) { requestContractValidator.validate(bindingResult) }
         }
     }
+}
 
-    private fun createUserCandidate() = UserCandidateRequest(
-        person = PersonRequest(
-            name = null,
-            birthDate = LocalDate.of(2022, 4, 14)
-        ),
-        phoneNumber = PhoneNumberRequest(
-            areaCode = "11",
-            countryCode = "55",
-            number = "988445500"
-        ),
-        device = DeviceRequest(
-            manufacturer = "Xiaomi",
-            system = SystemRequest(
-                version = "10",
-                systemOperation = "Miui 10"
-            )
+fun createUserCandidate() = UserCandidateRequest(
+    person = PersonRequest(
+        name = "Joao",
+        birthDate = LocalDate.of(2022, 4, 14)
+    ),
+    phoneNumber = PhoneNumberRequest(
+        areaCode = "11",
+        countryCode = "55",
+        number = "988445500"
+    ),
+    device = DeviceRequest(
+        manufacturer = "Xiaomi",
+        system = SystemRequest(
+            version = "10",
+            systemOperation = "Miui 10"
         )
     )
-}
+)
