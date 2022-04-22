@@ -4,11 +4,11 @@ import javax.validation.constraints.NotNull
 
 data class PhoneNumberRequest(
     @field:NotNull
-    val areaCode: String?,
+    val areaCode: Int?,
 
     @field:NotNull
-    val countryCode: String?,
+    val countryCode: Int?,
 
     @field:NotNull
-    val number: String?
+    val number: Int?
 )
