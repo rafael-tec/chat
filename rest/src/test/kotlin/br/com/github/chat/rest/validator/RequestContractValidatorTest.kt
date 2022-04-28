@@ -1,7 +1,6 @@
 package br.com.github.chat.rest.validator
 
 import io.kotest.core.spec.style.AnnotationSpec
-import io.kotest.core.spec.style.StringSpec
 
 class RequestContractValidatorTest : AnnotationSpec() {
 
@@ -9,8 +8,6 @@ class RequestContractValidatorTest : AnnotationSpec() {
 
     init {
         @Test
-        fun `should validate the contract of a request`() {
-
-        }
+        fun `should validate the contract of a request`() { }
     }
 }

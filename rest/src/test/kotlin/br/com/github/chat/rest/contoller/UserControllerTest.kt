@@ -5,9 +5,6 @@ import br.com.github.chat.rest.generator.createUserCandidate
 import br.com.github.chat.rest.validator.RequestContractValidator
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.core.test.TestCase
-import io.kotest.property.Arb
-import io.kotest.property.RandomSource
-import io.kotest.property.arbitrary.string
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -24,7 +21,7 @@ class UserControllerTest : StringSpec() {
     @InjectMockKs
     private lateinit var controller: UserController
 
-    override fun beforeTest(testCase: TestCase) {
+    override suspend fun beforeTest(testCase: TestCase) {
         MockKAnnotations.init(this)
     }
 
@@ -37,10 +34,4 @@ class UserControllerTest : StringSpec() {
             verify(exactly = 1) { requestContractValidator.validate(bindingResult) }
         }
     }
-}
-
-private fun main() {
-    val test = Arb.string(minSize = 1, maxSize = 100).sample(RandomSource.default()).value
-
-    println(test)
 }
