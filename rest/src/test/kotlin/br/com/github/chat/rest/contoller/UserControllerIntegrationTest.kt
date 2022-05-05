@@ -1,6 +1,6 @@
 package br.com.github.chat.rest.contoller
 
-import br.com.github.chat.application.Boot
+import br.com.github.chat.rest.configuration.IntegrationTestConfig
 import br.com.github.chat.rest.controller.UserController
 import br.com.github.chat.rest.generator.createUserCandidate
 import br.com.github.chat.rest.generator.createUserCandidateMap
@@ -16,16 +16,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest(controllers = [UserController::class])
-@ContextConfiguration(classes = [Boot::class])
+@ContextConfiguration(classes = [IntegrationTestConfig::class])
 class UserControllerIntegrationTest : StringSpec() {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
-
     override fun extensions() = listOf(SpringExtension)
 
     private val endpoint = "/v1/user"
@@ -55,20 +54,20 @@ class UserControllerIntegrationTest : StringSpec() {
                 "device",
                 "device.manufacturer",
                 "device.system",
-                "device.system.version.",
+                "device.system.version",
                 "device.system.systemOperation"
             )
 
             checkAll(requiredFields.exhaustive()) {requiredField ->
-                val request = createUserCandidateMap(fieldIgnore = "person")
+                val request = createUserCandidateMap(fieldIgnore = requiredField)
 
                 mockMvc.perform(MockMvcRequestBuilders
                     .post(endpoint)
                     .contentType(contentTypePattern)
                     .content(objectToJsonByteArray(obj = request))
                 )
-                .andDo(print())
                 .andExpect(status().isBadRequest)
+                .andExpect(jsonPath("$.error").value("INVALID REQUEST CONTRACT"))
             }
         }
     }

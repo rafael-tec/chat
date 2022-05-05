@@ -27,7 +27,7 @@ fun createUserCandidate() = UserCandidateRequest(
 fun createUserCandidateMap(
     fieldIgnore: String? = null
 ) : MutableMap<String, Any> {
-    val lastKey = fieldIgnore?.substringAfter(".")
+    val lastKey = fieldIgnore?.substringAfterLast(".")
 
     val person = mutableMapOf(
         "name" to string(),
@@ -50,9 +50,9 @@ fun createUserCandidateMap(
         "system" to system
     ).apply { this.remove(lastKey) }
 
-    return mutableMapOf(
+    return mutableMapOf<String, Any>(
         "person" to person,
         "phoneNumber" to phoneNumber,
         "device" to device
-    )
+    ).apply { this.remove(lastKey) }
 }
