@@ -1,7 +1,6 @@
 dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
 
-    testImplementation(project(":application"))
     testFixturesImplementation(testFixtures(project(":usecases")))
 
     constraints {
