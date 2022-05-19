@@ -10,15 +10,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 @RestControllerAdvice
 class ArgumentNotValidExceptionController {
 
-    @ExceptionHandler(value = [MethodArgumentNotValidException::class])
     @ResponseStatus(value = BAD_REQUEST)
+    @ExceptionHandler(value = [MethodArgumentNotValidException::class])
     fun handleArgumentNotValidException(exception: MethodArgumentNotValidException): DefaultErrorResponse {
-        val message = exception.allErrors
 
         return DefaultErrorResponse(
             status = BAD_REQUEST.value(),
-            error = "INVALID_REQUEST_CONTRACT",
-            message = message.toString()
+            error = "INVALID_FIELD_VALUE",
+            message = exception.fieldErrors.associate { it.field to it.defaultMessage }
         )
     }
 }

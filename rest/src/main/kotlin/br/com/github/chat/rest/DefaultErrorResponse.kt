@@ -6,5 +6,5 @@ data class DefaultErrorResponse(
     val timestamp: Instant = Instant.now(),
     val status: Int,
     val error: String,
-    val message: String? = null
+    val message: Any
 )

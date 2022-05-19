@@ -7,8 +7,8 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import org.springframework.http.HttpStatus
+import org.springframework.validation.FieldError
 import org.springframework.web.bind.MethodArgumentNotValidException
 
 class ArgumentNotValidExceptionControllerTest : StringSpec() {
@@ -24,14 +24,19 @@ class ArgumentNotValidExceptionControllerTest : StringSpec() {
 
     init {
         "should return default error response successfully" {
-            every { exception.allErrors } returns mockk()
+            val fieldErrors = listOf(
+                FieldError("objectName1", "field1", "must not be null"),
+                FieldError("objectName2", "field2", "must not be null")
+            )
+
+            every { exception.fieldErrors } returns fieldErrors
 
             val defaultErrorResponse = handler.handleArgumentNotValidException(exception)
 
-            defaultErrorResponse.status shouldBe HttpStatus.BAD_REQUEST.value()
-            defaultErrorResponse.error shouldBe "INVALID_REQUEST_CONTRACT"
             defaultErrorResponse.timestamp shouldNotBe null
-            defaultErrorResponse.message shouldNotBe null
+            defaultErrorResponse.status shouldBe HttpStatus.BAD_REQUEST.value()
+            defaultErrorResponse.error shouldBe "INVALID_FIELD_VALUE"
+            defaultErrorResponse.message shouldBe fieldErrors.associate { it.field to it.defaultMessage }
         }
     }
 }

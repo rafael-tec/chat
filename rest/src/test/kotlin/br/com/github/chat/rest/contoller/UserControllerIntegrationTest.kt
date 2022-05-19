@@ -2,8 +2,8 @@ package br.com.github.chat.rest.contoller
 
 import br.com.github.chat.rest.configuration.IntegrationTestConfig
 import br.com.github.chat.rest.controller.UserController
+import br.com.github.chat.rest.exception.ArgumentNotValidExceptionController
 import br.com.github.chat.rest.generator.createUserCandidate
-import br.com.github.chat.rest.generator.createUserCandidateMap
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -39,6 +40,7 @@ class UserControllerIntegrationTest : StringSpec() {
                 .contentType(contentTypePattern)
                 .content(objectToJsonByteArray(obj = request))
             )
+            .andDo(MockMvcResultHandlers.print())
             .andExpect(status().isOk)
         }
 
@@ -59,15 +61,19 @@ class UserControllerIntegrationTest : StringSpec() {
             )
 
             checkAll(requiredFields.exhaustive()) {requiredField ->
-                val request = createUserCandidateMap(fieldIgnore = requiredField)
+                val request = createUserCandidate(fieldIgnore = requiredField)
 
                 mockMvc.perform(MockMvcRequestBuilders
                     .post(endpoint)
                     .contentType(contentTypePattern)
                     .content(objectToJsonByteArray(obj = request))
                 )
+                .andDo { MockMvcResultHandlers.print() }
                 .andExpect(status().isBadRequest)
-                .andExpect(jsonPath("$.error").value("INVALID REQUEST CONTRACT"))
+                .andExpect(jsonPath("$.timestamp").exists())
+                .andExpect(jsonPath("$.status").value("400"))
+                .andExpect(jsonPath("$.error").value("INVALID_FIELD_VALUE"))
+                .andExpect(jsonPath("$.message").value(mapOf(requiredField to "must not be null")))
             }
         }
     }

@@ -24,7 +24,7 @@ fun createUserCandidate() = UserCandidateRequest(
     )
 )
 
-fun createUserCandidateMap(
+fun createUserCandidate(
     fieldIgnore: String? = null
 ) : MutableMap<String, Any> {
     val lastKey = fieldIgnore?.substringAfterLast(".")
