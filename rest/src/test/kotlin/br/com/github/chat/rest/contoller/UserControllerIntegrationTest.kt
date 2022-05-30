@@ -2,7 +2,6 @@ package br.com.github.chat.rest.contoller
 
 import br.com.github.chat.rest.configuration.IntegrationTestConfig
 import br.com.github.chat.rest.controller.UserController
-import br.com.github.chat.rest.exception.ArgumentNotValidExceptionController
 import br.com.github.chat.rest.generator.createUserCandidate
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
@@ -11,6 +10,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringExtension
 import io.kotest.property.checkAll
 import io.kotest.property.exhaustive.exhaustive
+import org.hamcrest.Matchers.hasItem
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.context.ContextConfiguration
@@ -60,20 +60,21 @@ class UserControllerIntegrationTest : StringSpec() {
                 "device.system.systemOperation"
             )
 
-            checkAll(requiredFields.exhaustive()) {requiredField ->
+            checkAll(requiredFields.exhaustive()) { requiredField ->
                 val request = createUserCandidate(fieldIgnore = requiredField)
+                val expectedMessage = mapOf(requiredField to "must not be null")
 
                 mockMvc.perform(MockMvcRequestBuilders
                     .post(endpoint)
                     .contentType(contentTypePattern)
                     .content(objectToJsonByteArray(obj = request))
                 )
-                .andDo { MockMvcResultHandlers.print() }
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isBadRequest)
                 .andExpect(jsonPath("$.timestamp").exists())
                 .andExpect(jsonPath("$.status").value("400"))
                 .andExpect(jsonPath("$.error").value("INVALID_FIELD_VALUE"))
-                .andExpect(jsonPath("$.message").value(mapOf(requiredField to "must not be null")))
+                .andExpect(jsonPath("$.*").value(hasItem(expectedMessage)))
             }
         }
     }
