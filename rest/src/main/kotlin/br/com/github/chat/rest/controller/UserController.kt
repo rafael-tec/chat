@@ -1,6 +1,7 @@
 package br.com.github.chat.rest.controller
 
 import br.com.github.chat.rest.request.UserCandidateRequest
+import br.com.github.chat.usecases.user.UserInteractor
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -9,7 +10,9 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/v1/user")
-class UserController {
+class UserController(
+    val userInteractor: UserInteractor
+) {
 
     @PostMapping
     fun save(
@@ -17,6 +20,6 @@ class UserController {
         @Valid
         userCandidateRequest: UserCandidateRequest
     ) {
-
+        userInteractor.registration(userCandidate = userCandidateRequest.toModel())
     }
 }
