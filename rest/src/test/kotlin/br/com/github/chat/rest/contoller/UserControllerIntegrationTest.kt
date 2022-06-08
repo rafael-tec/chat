@@ -3,9 +3,11 @@ package br.com.github.chat.rest.contoller
 import br.com.github.chat.rest.configuration.IntegrationTestConfig
 import br.com.github.chat.rest.controller.UserController
 import br.com.github.chat.rest.generator.createUserCandidate
+import br.com.github.chat.usecases.user.UserInteractor
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringExtension
 import io.kotest.property.checkAll
@@ -23,6 +25,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @WebMvcTest(controllers = [UserController::class])
 @ContextConfiguration(classes = [IntegrationTestConfig::class])
 class UserControllerIntegrationTest : StringSpec() {
+
+    @MockkBean
+    private lateinit var userInteractor: UserInteractor
 
     @Autowired
     private lateinit var mockMvc: MockMvc
@@ -49,6 +54,7 @@ class UserControllerIntegrationTest : StringSpec() {
                 "person",
                 "person.name",
                 "person.birthDate",
+                "person.email",
                 "phoneNumber",
                 "phoneNumber.areaCode",
                 "phoneNumber.countryCode",

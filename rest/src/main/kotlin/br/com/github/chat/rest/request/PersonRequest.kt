@@ -8,5 +8,8 @@ data class PersonRequest(
     val name: String?,
 
     @field:NotNull
-    val birthDate: LocalDate?
+    val birthDate: LocalDate?,
+
+    @field:NotNull
+    val email: String?
 )

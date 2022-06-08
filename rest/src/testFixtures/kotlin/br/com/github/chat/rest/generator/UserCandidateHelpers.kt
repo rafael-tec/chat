@@ -8,7 +8,8 @@ import java.time.LocalDate
 fun createUserCandidate() = UserCandidateRequest(
     person = PersonRequest(
         name = string(),
-        birthDate = LocalDate.now()
+        birthDate = LocalDate.now(),
+        email = string()
     ),
     phoneNumber = PhoneNumberRequest(
         areaCode = int(),
@@ -31,7 +32,8 @@ fun createUserCandidate(
 
     val person = mutableMapOf(
         "name" to string(),
-        "birthDate" to LocalDate.now()
+        "birthDate" to LocalDate.now(),
+        "email" to string()
     ).apply { this.remove(lastKey) }
 
     val phoneNumber = mutableMapOf(
