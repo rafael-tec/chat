@@ -13,11 +13,11 @@ class PhoneValidatorService(
     @Value("#{environment.API_KEY}")
     private lateinit var apiKey: String
 
-    private val publicApisUrl = "http://localhost:8080/validate"
+    private val numberVerificationUri = "https://api.apilayer.com/number_verification/validate"
 
     fun validate(phoneNumber: PhoneNumberModel): String {
         val response = httpConnectionService.getRequest(
-            url = publicApisUrl,
+            url = numberVerificationUri,
             queryParameters = mapOf("number" to phoneNumber.fullPhoneNumber()),
             customHeaders = mapOf("apiKey" to apiKey)
         )
