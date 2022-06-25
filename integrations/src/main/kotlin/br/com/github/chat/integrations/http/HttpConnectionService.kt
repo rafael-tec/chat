@@ -18,19 +18,20 @@ class HttpConnectionService(
         queryParameters: Map<String, Any>,
         customHeaders: Map<String, String>
     ): ResponseEntity<Any> {
-        val httpHeaders = HttpHeaders()
-            .apply { customHeaders.map { this.set(it.key, it.value) } }
-
-        val uriWithQueryParams = UriComponentsBuilder
-            .fromUriString(url)
-            .apply { queryParameters.map { this.queryParam(it.key, it.value) } }
-            .toUriString()
-
         return restTemplate.exchange(
-            uriWithQueryParams,
+            url.withQueryParameters(queryParameters),
             HttpMethod.GET,
-            HttpEntity(null, httpHeaders),
+            HttpEntity(null, withCustomHeaders(customHeaders)),
             Any::class.java,
         )
     }
+
+    private fun withCustomHeaders(parameters: Map<String, String>) = HttpHeaders()
+        .apply { parameters.map { this.set(it.key, it.value) } }
+
+    private fun String.withQueryParameters(parameters: Map<String, Any>) =
+        UriComponentsBuilder
+            .fromUriString(this)
+            .apply { parameters.map { this.queryParam(it.key, it.value) } }
+            .toUriString()
 }

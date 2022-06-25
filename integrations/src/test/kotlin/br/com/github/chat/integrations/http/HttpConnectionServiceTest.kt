@@ -27,7 +27,6 @@ class HttpConnectionServiceTest : StringSpec() {
     private lateinit var httpConnectionService: HttpConnectionService
 
     private var httpEntitySlot = slot<HttpEntity<*>>()
-
     private var responseEntity = responseEntity()
 
     override suspend fun beforeTest(testCase: TestCase) {
