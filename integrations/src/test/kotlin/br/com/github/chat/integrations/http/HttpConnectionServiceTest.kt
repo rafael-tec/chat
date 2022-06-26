@@ -1,5 +1,6 @@
 package br.com.github.chat.integrations.http
 
+import br.com.github.chat.usecases.string
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.core.test.TestCase
 import io.kotest.matchers.nulls.shouldNotBeNull
@@ -10,7 +11,6 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.slot
-import org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.Conversions.string
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
@@ -58,7 +58,7 @@ class HttpConnectionServiceTest : StringSpec() {
                     urlWithQueryParameters,
                     HttpMethod.GET,
                     httpEntitySlot.captured,
-                    Any::class.java
+                    String::class.java
                 )
             }
         }
