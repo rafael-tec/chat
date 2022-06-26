@@ -17,12 +17,12 @@ class HttpConnectionService(
         url: String,
         queryParameters: Map<String, Any>,
         customHeaders: Map<String, String>
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<String> {
         return restTemplate.exchange(
             url.withQueryParameters(queryParameters),
             HttpMethod.GET,
             HttpEntity(null, withCustomHeaders(customHeaders)),
-            Any::class.java,
+            String::class.java,
         )
     }
 
