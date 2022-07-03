@@ -1,9 +1,9 @@
-package br.com.github.chat.integrations.phone.response
+package br.com.github.chat.persistence.phone.response
 
-import br.com.github.chat.integrations.extensions.convertTo
-import br.com.github.chat.integrations.extensions.convertToJson
-import br.com.github.chat.integrations.extensions.convertToJsonNode
-import br.com.github.chat.integrations.helpers.phoneValidationResponse
+import br.com.github.chat.persistence.extensions.convertTo
+import br.com.github.chat.persistence.extensions.convertToJson
+import br.com.github.chat.persistence.extensions.convertToJsonNode
+import br.com.github.chat.persistence.helpers.phoneValidationResponse
 import br.com.github.chat.usecases.string
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec

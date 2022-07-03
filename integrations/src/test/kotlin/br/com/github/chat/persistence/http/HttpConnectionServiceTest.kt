@@ -1,4 +1,4 @@
-package br.com.github.chat.integrations.http
+package br.com.github.chat.persistence.http
 
 import br.com.github.chat.usecases.string
 import io.kotest.core.spec.style.StringSpec

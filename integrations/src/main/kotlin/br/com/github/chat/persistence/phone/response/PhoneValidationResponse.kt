@@ -1,4 +1,4 @@
-package br.com.github.chat.integrations.phone.response
+package br.com.github.chat.persistence.phone.response
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

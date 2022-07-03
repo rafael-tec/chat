@@ -1,11 +1,10 @@
 package br.com.github.chat.rest.controller
 
-import br.com.github.chat.integrations.phone.PhoneValidatorService
+import br.com.github.chat.persistence.phone.PhoneValidatorService
 import br.com.github.chat.usecases.user.model.PhoneNumberModel
 import org.springframework.http.HttpHeaders
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
@@ -15,8 +14,8 @@ class PhoneValidatorController(
 ) {
 
     @GetMapping("/v1/phone")
-    fun validate(): String {
-        return validatorService.validate(
+    fun validate() {
+        validatorService.validate(
             PhoneNumberModel(countryCode = 55, areaCode = 11, number = 948640911)
         )
     }

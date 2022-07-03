@@ -1,4 +1,4 @@
-package br.com.github.chat.integrations.configuration;
+package br.com.github.chat.persistence.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

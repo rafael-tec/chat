@@ -1,9 +1,9 @@
-package br.com.github.chat.integrations.phone
+package br.com.github.chat.persistence.phone
 
-import br.com.github.chat.integrations.extensions.convertTo
-import br.com.github.chat.integrations.extensions.convertToJsonNode
-import br.com.github.chat.integrations.http.HttpConnectionService
-import br.com.github.chat.integrations.phone.response.PhoneValidationResponse
+import br.com.github.chat.persistence.extensions.convertTo
+import br.com.github.chat.persistence.extensions.convertToJsonNode
+import br.com.github.chat.persistence.http.HttpConnectionService
+import br.com.github.chat.persistence.phone.response.PhoneValidationResponse
 import br.com.github.chat.usecases.user.model.PhoneNumberModel
 import org.springframework.core.env.Environment
 import org.springframework.http.HttpStatus

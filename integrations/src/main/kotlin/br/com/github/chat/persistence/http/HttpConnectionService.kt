@@ -1,4 +1,4 @@
-package br.com.github.chat.integrations.http
+package br.com.github.chat.persistence.http
 
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders

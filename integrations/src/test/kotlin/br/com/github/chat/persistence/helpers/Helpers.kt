@@ -1,6 +1,6 @@
-package br.com.github.chat.integrations.helpers
+package br.com.github.chat.persistence.helpers
 
-import br.com.github.chat.integrations.phone.response.PhoneValidationResponse
+import br.com.github.chat.persistence.phone.response.PhoneValidationResponse
 import br.com.github.chat.usecases.int
 import br.com.github.chat.usecases.string
 
