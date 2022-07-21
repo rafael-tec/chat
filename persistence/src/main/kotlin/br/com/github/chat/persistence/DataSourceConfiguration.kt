@@ -11,6 +11,7 @@ class DataSourceConfiguration(
 ) {
 
     @Bean
+    @SuppressWarnings
     fun dataSource() = DataSourceBuilder
         .create()
         .username(environment.getRequiredProperty("spring.datasource.user"))

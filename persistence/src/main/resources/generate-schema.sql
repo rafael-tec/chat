@@ -11,7 +11,7 @@ USE `chat` ;
 -- Table `chat`.`person`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `chat`.`person` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `birth_date` DATE NOT NULL,
   `email` VARCHAR(45) NOT NULL,
@@ -24,7 +24,7 @@ ENGINE = InnoDB;
 -- Table `chat`.`user`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `chat`.`user` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `created` DATE NULL,
   `person_id` INT NOT NULL,
   PRIMARY KEY (`id`, `person_id`),
@@ -41,7 +41,7 @@ ENGINE = InnoDB;
 -- Table `chat`.`phone`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `chat`.`phone` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `number` VARCHAR(10) NULL,
   `area_code` VARCHAR(4) NOT NULL,
   `country_code` VARCHAR(4) NOT NULL,
@@ -60,7 +60,7 @@ ENGINE = InnoDB;
 -- Table `chat`.`device`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `chat`.`device` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `manufacturer` VARCHAR(45) NOT NULL,
   `system_operation` VARCHAR(45) NOT NULL,
   `system_version` VARCHAR(45) NOT NULL,

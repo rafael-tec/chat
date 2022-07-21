@@ -3,6 +3,7 @@ plugins {
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
     kotlin("plugin.allopen") version "1.6.10"
+    kotlin("plugin.noarg") version "1.6.10"
 }
 
 allprojects {
@@ -18,6 +19,7 @@ subprojects {
     apply(plugin = "kotlin")
     apply(plugin = "kotlin-spring")
     apply(plugin = "java-test-fixtures")
+    apply(plugin = "kotlin-noarg")
 
     dependencies {
         implementation(kotlin("stdlib-jdk8"))
@@ -48,6 +50,10 @@ subprojects {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(17))
         }
+    }
+
+    noArg {
+        annotation("javax.persistence.Entity")
     }
 }
 
