@@ -1,4 +1,4 @@
-package br.com.github.chat.persistence
+package br.com.github.chat.usecases.user.repository
 
 import br.com.github.chat.entities.UserEntity
 import org.springframework.data.repository.CrudRepository

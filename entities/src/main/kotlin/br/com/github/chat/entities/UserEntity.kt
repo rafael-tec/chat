@@ -1,41 +1,82 @@
 package br.com.github.chat.entities
 
 import java.time.LocalDate
-import javax.persistence.Entity
-import javax.persistence.Id
+import java.time.LocalDateTime
+import javax.persistence.*
 
-@Entity
+@Entity(name = "user")
 data class UserEntity(
     @Id
-    val id: Long,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Int? = null,
+
+    @OneToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "person_id", nullable = false)
     val person: PersonEntity,
-    val phoneNumber: PhoneNumberEntity,
-    val device: DeviceEntity
+
+    @Column(name = "created", nullable = false)
+    val createdAt: LocalDateTime
 )
 
-@Entity
+@Entity(name = "person")
 data class PersonEntity(
     @Id
-    val id: Long,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Int? = null,
+
+    @Column(name = "name", nullable = false)
     val name: String,
+
+    @Column(name = "birth_date", nullable = false)
     val birthDate: LocalDate,
-    val email: String
+
+    @Column(name = "email", nullable = false)
+    val email: String,
 )
 
-@Entity
+@Entity(name = "phone")
 data class PhoneNumberEntity(
     @Id
-    val id: Long,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Int? = null,
+
+    @Column(name = "area_code", nullable = false)
     val areaCode: String,
+
+    @Column(name = "country_code", nullable = false)
     val countryCode: String,
-    val number: String
+
+    @Column(name = "number", nullable = false)
+    val number: String,
+
+    @ManyToOne
+    @JoinColumn(name = "person_id", nullable = false)
+    val person: PersonEntity,
 )
 
-@Entity
+@Entity(name = "device")
 data class DeviceEntity(
     @Id
-    val id: Long,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Int? = null,
+
+    @Column(name = "manufacturer", nullable = false)
     val manufacturer: String,
+
+    @Column(name = "system_version", nullable = false)
     val systemVersion: String,
-    val systemOperation: String
+
+    @Column(name = "system_operation", nullable = false)
+    val systemOperation: String,
+
+    @Column(name = "ip", nullable = false)
+    val ip: String,
+
+    @ManyToOne
+    @JoinColumn(name = "phone_id", nullable = false)
+    val phoneNumber: PhoneNumberEntity,
+
+    @ManyToOne
+    @JoinColumn(name = "phone_person_id", nullable = false)
+    val person: PersonEntity
 )
