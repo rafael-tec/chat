@@ -32,6 +32,9 @@ data class PersonEntity(
 
     @Column(name = "email", nullable = false)
     val email: String,
+
+    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "person")
+    val phones: List<PhoneNumberEntity>? = null
 )
 
 @Entity(name = "phone")
@@ -49,9 +52,9 @@ data class PhoneNumberEntity(
     @Column(name = "number", nullable = false)
     val number: String,
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.REFRESH])
     @JoinColumn(name = "person_id", nullable = false)
-    val person: PersonEntity,
+    val person: PersonEntity? = null,
 )
 
 @Entity(name = "device")
@@ -72,11 +75,11 @@ data class DeviceEntity(
     @Column(name = "ip", nullable = false)
     val ip: String,
 
-    @ManyToOne
-    @JoinColumn(name = "phone_id", nullable = false)
-    val phoneNumber: PhoneNumberEntity,
-
-    @ManyToOne
-    @JoinColumn(name = "phone_person_id", nullable = false)
-    val person: PersonEntity
+//    @ManyToOne
+//    @JoinColumn(name = "phone_id", nullable = false)
+//    val phoneNumber: PhoneNumberEntity,
+//
+//    @ManyToOne
+//    @JoinColumn(name = "phone_person_id", nullable = false)
+//    val person: PersonEntity
 )
