@@ -18,4 +18,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-gradle-plugin:2.6.6")
 
     implementation(project(":rest"))
+    implementation(project(":persistence"))
+    implementation(project(":usecases"))
 }
