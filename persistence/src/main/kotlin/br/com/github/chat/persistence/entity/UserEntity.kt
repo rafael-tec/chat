@@ -1,5 +1,9 @@
-package br.com.github.chat.entities
+package br.com.github.chat.persistence.entity
 
+import br.com.github.chat.usecases.user.model.PersonModel
+import br.com.github.chat.usecases.user.model.PhoneNumberModel
+import br.com.github.chat.usecases.user.model.UserCandidateModel
+import br.com.github.chat.usecases.user.model.UserModel
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -16,6 +20,34 @@ data class UserEntity(
 
     @Column(name = "created", nullable = false)
     val createdAt: LocalDateTime
+) {
+    fun toModel() = UserModel(
+        id = this.id!!,
+        person = this.person.toModel(),
+        createdAt = this.createdAt
+    )
+}
+
+fun UserCandidateModel.toEntity() = UserEntity(
+    createdAt = LocalDateTime.now(),
+    person = PersonEntity(
+        name = this.person.name,
+        birthDate = this.person.birthDate,
+        email = this.person.email,
+        phones = listOf(this.phoneNumber.toEntity()),
+    )
+)
+
+fun PersonModel.toEntity() = PersonEntity(
+    name = this.name,
+    birthDate = this.birthDate,
+    email = this.email
+)
+
+fun PhoneNumberModel.toEntity() = PhoneNumberEntity(
+    number = this.number.toString(),
+    areaCode = this.areaCode.toString(),
+    countryCode = this.countryCode.toString()
 )
 
 @Entity(name = "person")
@@ -34,8 +66,15 @@ data class PersonEntity(
     val email: String,
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "person")
+    @JoinColumn(name = "person_id", nullable = false)
     val phones: List<PhoneNumberEntity>? = null
-)
+) {
+    fun toModel() = PersonModel(
+        name = this.name,
+        birthDate = this.birthDate,
+        email = this.email
+    )
+}
 
 @Entity(name = "phone")
 data class PhoneNumberEntity(
@@ -52,7 +91,7 @@ data class PhoneNumberEntity(
     @Column(name = "number", nullable = false)
     val number: String,
 
-    @ManyToOne(cascade = [CascadeType.REFRESH])
+    @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "person_id", nullable = false)
     val person: PersonEntity? = null,
 )
@@ -75,11 +114,11 @@ data class DeviceEntity(
     @Column(name = "ip", nullable = false)
     val ip: String,
 
-//    @ManyToOne
-//    @JoinColumn(name = "phone_id", nullable = false)
-//    val phoneNumber: PhoneNumberEntity,
-//
-//    @ManyToOne
-//    @JoinColumn(name = "phone_person_id", nullable = false)
-//    val person: PersonEntity
+    @ManyToOne
+    @JoinColumn(name = "phone_id", nullable = false)
+    val phoneNumber: PhoneNumberEntity,
+
+    @ManyToOne
+    @JoinColumn(name = "phone_person_id", nullable = false)
+    val person: PersonEntity
 )

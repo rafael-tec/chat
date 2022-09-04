@@ -9,12 +9,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
 @Configuration
 @EnableJpaRepositories(basePackages = ["br.com.github.chat.persistence"])
+@EntityScan(basePackages = ["br.com.github.chat.persistence"])
 class DataSourceConfiguration(
     val environment: Environment
 ) {
 
     @Bean
-    @SuppressWarnings
     fun dataSource() = DataSourceBuilder
         .create()
         .username(environment.getRequiredProperty("spring.datasource.username"))
