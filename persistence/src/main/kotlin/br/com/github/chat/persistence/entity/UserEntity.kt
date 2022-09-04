@@ -34,7 +34,7 @@ fun UserCandidateModel.toEntity() = UserEntity(
         name = this.person.name,
         birthDate = this.person.birthDate,
         email = this.person.email,
-        phones = listOf(this.phoneNumber.toEntity()),
+//        phones = listOf(this.phoneNumber.toEntity()),
     )
 )
 
@@ -65,9 +65,9 @@ data class PersonEntity(
     @Column(name = "email", nullable = false)
     val email: String,
 
-    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "person")
-    @JoinColumn(name = "person_id", nullable = false)
-    val phones: List<PhoneNumberEntity>? = null
+//    @OneToMany(cascade = [CascadeType.ALL])
+//    @JoinColumn(name = "person_id", nullable = false)
+//    val phones: List<PhoneNumberEntity>? = null
 ) {
     fun toModel() = PersonModel(
         name = this.name,
@@ -92,7 +92,7 @@ data class PhoneNumberEntity(
     val number: String,
 
     @ManyToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "person_id", nullable = false)
+    @JoinColumn(name = "person_id", nullable = false, insertable = false, updatable = false)
     val person: PersonEntity? = null,
 )
 
