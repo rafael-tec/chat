@@ -1,10 +1,10 @@
 package br.com.github.chat.usecases.user.gateway
 
-import br.com.github.chat.usecases.user.model.UserCandidateModel
+import br.com.github.chat.usecases.user.model.UserCandidate
 import br.com.github.chat.usecases.user.model.UserModel
 
-interface UserGateway {
+interface UserRegistrationGateway {
     fun findAll(): List<UserModel>
 
-    fun save(model: UserCandidateModel): UserModel
+    fun save(model: UserCandidate): UserModel
 }

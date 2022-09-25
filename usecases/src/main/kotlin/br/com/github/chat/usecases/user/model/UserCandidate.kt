@@ -1,12 +1,11 @@
 package br.com.github.chat.usecases.user.model
 
 import java.time.LocalDate
-import java.time.LocalDateTime
 
-data class UserModel(
-    val id: Int,
+data class UserCandidate(
     val name: String,
-    val email: String,
     val birthDate: LocalDate,
-    val createdAt: LocalDateTime
+    val email: String,
+    val phoneNumber: PhoneNumberModel,
+    val device: DeviceModel
 )

@@ -1,9 +1,9 @@
 package br.com.github.chat.usecases.user.model
 
 data class PhoneNumberModel(
-    val areaCode: Int,
-    val countryCode: Int,
-    val number: Int
+    val areaCode: String,
+    val countryCode: String,
+    val number: String
 ) {
     fun fullPhoneNumber() = "${this.countryCode}${this.areaCode}${this.number}"
 }

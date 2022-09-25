@@ -1,9 +1,10 @@
 package br.com.github.chat.persistence.entity
 
-import br.com.github.chat.usecases.user.model.PersonModel
+import br.com.github.chat.usecases.user.model.DeviceModel
 import br.com.github.chat.usecases.user.model.PhoneNumberModel
-import br.com.github.chat.usecases.user.model.UserCandidateModel
+import br.com.github.chat.usecases.user.model.UserCandidate
 import br.com.github.chat.usecases.user.model.UserModel
+import org.hibernate.annotations.Type
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -14,47 +15,8 @@ data class UserEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int? = null,
 
-    @OneToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "person_id", nullable = false)
-    val person: PersonEntity,
-
-    @Column(name = "created", nullable = false)
-    val createdAt: LocalDateTime
-) {
-    fun toModel() = UserModel(
-        id = this.id!!,
-        person = this.person.toModel(),
-        createdAt = this.createdAt
-    )
-}
-
-fun UserCandidateModel.toEntity() = UserEntity(
-    createdAt = LocalDateTime.now(),
-    person = PersonEntity(
-        name = this.person.name,
-        birthDate = this.person.birthDate,
-        email = this.person.email,
-//        phones = listOf(this.phoneNumber.toEntity()),
-    )
-)
-
-fun PersonModel.toEntity() = PersonEntity(
-    name = this.name,
-    birthDate = this.birthDate,
-    email = this.email
-)
-
-fun PhoneNumberModel.toEntity() = PhoneNumberEntity(
-    number = this.number.toString(),
-    areaCode = this.areaCode.toString(),
-    countryCode = this.countryCode.toString()
-)
-
-@Entity(name = "person")
-data class PersonEntity(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int? = null,
+    @Column(name = "created_at", nullable = false)
+    val createdAt: LocalDateTime,
 
     @Column(name = "name", nullable = false)
     val name: String,
@@ -65,16 +27,43 @@ data class PersonEntity(
     @Column(name = "email", nullable = false)
     val email: String,
 
-//    @OneToMany(cascade = [CascadeType.ALL])
-//    @JoinColumn(name = "person_id", nullable = false)
-//    val phones: List<PhoneNumberEntity>? = null
+    @Column(name = "email_confirmed", columnDefinition = "TINYINT")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    val emailConfirmed: Boolean = false,
 ) {
-    fun toModel() = PersonModel(
+
+    fun toModel() = UserModel(
         name = this.name,
+        email = this.email,
         birthDate = this.birthDate,
-        email = this.email
+        id = this.id!!,
+        createdAt = this.createdAt
     )
 }
+
+fun UserCandidate.toUserEntity() = UserEntity(
+    createdAt = LocalDateTime.now(),
+    name = this.name,
+    birthDate = this.birthDate,
+    email = this.email
+)
+
+fun PhoneNumberModel.toPhoneNumberEntity(userEntity: UserEntity) = PhoneNumberEntity(
+    areaCode = this.areaCode,
+    countryCode = this.countryCode,
+    number = this.number,
+    createdAt = LocalDateTime.now(),
+    user = userEntity
+)
+
+fun DeviceModel.toDeviceEntity(user: UserEntity, phoneNumber: PhoneNumberEntity) = DeviceEntity(
+    manufacturer = this.manufacturer,
+    systemOperation = this.system.systemOperation,
+    systemVersion = this.system.version,
+    ip = this.ip,
+    user = user,
+    phoneNumber = phoneNumber
+)
 
 @Entity(name = "phone")
 data class PhoneNumberEntity(
@@ -91,9 +80,12 @@ data class PhoneNumberEntity(
     @Column(name = "number", nullable = false)
     val number: String,
 
-    @ManyToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "person_id", nullable = false, insertable = false, updatable = false)
-    val person: PersonEntity? = null,
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    val user: UserEntity,
+
+    @Column(name = "created_at", nullable = false)
+    val createdAt: LocalDateTime
 )
 
 @Entity(name = "device")
@@ -119,6 +111,6 @@ data class DeviceEntity(
     val phoneNumber: PhoneNumberEntity,
 
     @ManyToOne
-    @JoinColumn(name = "phone_person_id", nullable = false)
-    val person: PersonEntity
+    @JoinColumn(name = "phone_user_id", nullable = false)
+    val user: UserEntity
 )

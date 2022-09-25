@@ -9,5 +9,8 @@ data class DeviceRequest(
 
     @field:NotNull
     @field:Valid
-    val system: SystemRequest?
+    val system: SystemRequest?,
+
+    @field:NotNull
+    val ip: String?,
 )

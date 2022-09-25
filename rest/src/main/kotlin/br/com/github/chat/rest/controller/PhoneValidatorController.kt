@@ -16,7 +16,7 @@ class PhoneValidatorController(
     @GetMapping("/v1/phone")
     fun validate() {
         validatorService.validate(
-            PhoneNumberModel(countryCode = 55, areaCode = 11, number = 948640911)
+            PhoneNumberModel(countryCode = "55", areaCode = "11", number = "948640911")
         )
     }
 

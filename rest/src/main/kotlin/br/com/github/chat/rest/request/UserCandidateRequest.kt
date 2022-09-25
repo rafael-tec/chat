@@ -17,12 +17,10 @@ data class UserCandidateRequest(
     @field:Valid
     val device: DeviceRequest?,
 ) {
-    fun toModel() = UserCandidateModel(
-        person = PersonModel(
-            name = this.person?.name!!,
-            birthDate = this.person.birthDate!!,
-            email = this.person.email!!
-        ),
+    fun toModel() = UserCandidate(
+        name = this.person?.name!!,
+        birthDate = this.person.birthDate!!,
+        email = this.person.email!!,
         phoneNumber = PhoneNumberModel(
             areaCode = this.phoneNumber?.areaCode!!,
             countryCode = this.phoneNumber.countryCode!!,
@@ -30,6 +28,7 @@ data class UserCandidateRequest(
         ),
         device = DeviceModel(
             manufacturer = this.device?.manufacturer!!,
+            ip = this.device.ip!!,
             system = SystemModel(
                 version = this.device.system?.version!!,
                 systemOperation = this.device.system.systemOperation!!
