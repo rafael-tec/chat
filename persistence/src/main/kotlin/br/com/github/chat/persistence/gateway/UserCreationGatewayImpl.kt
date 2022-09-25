@@ -10,11 +10,10 @@ import br.com.github.chat.usecases.user.gateway.UserRegistrationGateway
 import br.com.github.chat.usecases.user.model.UserCandidate
 import br.com.github.chat.usecases.user.model.UserModel
 import org.springframework.stereotype.Component
-import java.lang.RuntimeException
 import javax.transaction.Transactional
 
 @Component
-class UserRegistrationGatewayImpl(
+class UserCreationGatewayImpl(
     private val userRepository: UserRepository,
     private val phoneRepository: PhoneRepository,
     private val deviceRepository: DeviceRepository
@@ -23,14 +22,11 @@ class UserRegistrationGatewayImpl(
     override fun findAll(): List<UserModel> = emptyList()
 
     @Transactional
-    @Suppress("UNREACHABLE_CODE")
     override fun save(model: UserCandidate): UserModel {
         val userSaved = userRepository.save(model.toUserEntity())
 
         val phoneEntity = model.phoneNumber.toPhoneNumberEntity(userEntity = userSaved)
         phoneRepository.save(phoneEntity)
-
-        throw RuntimeException("deu ruim")
 
         val deviceEntity = model.device.toDeviceEntity(user = userSaved, phoneNumber = phoneEntity)
         deviceRepository.save(deviceEntity)
