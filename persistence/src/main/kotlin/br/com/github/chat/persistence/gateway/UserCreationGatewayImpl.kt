@@ -23,14 +23,15 @@ class UserCreationGatewayImpl(
 
     @Transactional
     override fun save(model: UserCandidate): UserModel {
-        val userSaved = userRepository.save(model.toUserEntity())
+        val userEntity = model.toUserEntity()
+        userRepository.save(userEntity)
 
-        val phoneEntity = model.phoneNumber.toPhoneNumberEntity(userEntity = userSaved)
+        val phoneEntity = model.phoneNumber.toPhoneNumberEntity(userEntity = userEntity)
         phoneRepository.save(phoneEntity)
 
-        val deviceEntity = model.device.toDeviceEntity(user = userSaved, phoneNumber = phoneEntity)
+        val deviceEntity = model.device.toDeviceEntity(user = userEntity, phoneNumber = phoneEntity)
         deviceRepository.save(deviceEntity)
 
-        return userSaved.toModel()
+        return userEntity.toModel()
     }
 }
